@@ -1,0 +1,32 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches: [ "main" ]   # main 브랜치에 push될 때 실행
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 소스코드 체크아웃
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Docker 로그인 (GitHub Container Registry)
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # 3. Docker 이미지 빌드
+      - name: Build Docker image
+        run: |
+          docker build -t ghcr.io/${{ github.repository_owner }}/my-app:latest .
+
+      # 4. Docker 이미지 푸시
+      - name: Push Docker image
+        run: |
+          docker push ghcr.io/${{ github.repository_owner }}/my-app:latest
