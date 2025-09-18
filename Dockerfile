@@ -1,5 +1,5 @@
 # 1. 베이스 이미지 설정 (Ubuntu 20.04)
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 # 2. 환경 변수 설정 (비대화식 모드)
 ENV DEBIAN_FRONTEND=noninteractive
